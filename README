@@ -1,0 +1,40 @@
+This directory contains several programs used to create keys and
+enroll a device in our secure Airtag protocol.  Important files are
+described below.
+
+
+serialkey.py - Configuration file for storing the symmetric key
+that is used to generate and verify serial numbers.  Need to create
+a 16 byte key and put it here before serialgen.py can be run.
+
+serialgen.py - Generates serial numbers using the key in
+serialkey.py
+
+pbs.py - Includes functions for performing partial blind signatures
+over eliptic curves.  Should be imported by another python program,
+not run directly.
+
+pbs_dh.py - Same thing but over integer groups.  Useful for checking
+correctness but much slower than pbs.py
+
+comm.py - Library code for network communication, not run directly.
+
+client.py - Client program for enrolling a new device in the Airtag
+    protocol.  Should be run after starting server.py. 
+    
+    - Outputs:
+        signed_key.txt which contains JSON representations of all the
+        blind signed public keys
+
+server.py - Server program for enrolling a new device in the Airtag
+protocol.
+
+puckcode.js - Javascript code to run on the Puck and broadcast keys
+generating during the enrollment process.  Requires uploading a
+puckkeys.bin file to the puck which contains the keys in a binary
+format.  This file is output by client.py after a successful run, but
+there is also a sample one in the repo with 10 keys that can be used
+as well.
+
+extract_keys.py - Takes as input a signed_keys.txt file and converts
+it to a puckkeys.bin file to load onto a puck.
